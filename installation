@@ -1,0 +1,67 @@
+1. Download MYSQL RPM:
+
+$ wget https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.15-1.el7.x86_64.rpm-bundle.tar
+
+--2020-02-27 10:49:41--  https://dev.mysql.com/get/Downloads/MySQL-8.0/mysql-8.0.15-1.el7.x86_64.rpm-bundle.tar
+Resolving dev.mysql.com (dev.mysql.com)... 137.254.60.11
+Connecting to dev.mysql.com (dev.mysql.com)|137.254.60.11|:443... connected.
+HTTP request sent, awaiting response... 302 Found
+Location: https://cdn.mysql.com//archives/mysql-8.0/mysql-8.0.15-1.el7.x86_64.rpm-bundle.tar [following]
+--2020-02-27 10:49:41--  https://cdn.mysql.com//archives/mysql-8.0/mysql-8.0.15-1.el7.x86_64.rpm-bundle.tar
+Resolving cdn.mysql.com (cdn.mysql.com)... 184.26.49.50
+Connecting to cdn.mysql.com (cdn.mysql.com)|184.26.49.50|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 521164800 (497M) [application/x-tar]
+Saving to: ‘mysql-8.0.15-1.el7.x86_64.rpm-bundle.tar’
+100%[=========================================================================================================================================================>] 521,164,800 15.7MB/s   in 42s
+2020-02-27 10:50:23 (11.9 MB/s) - ‘mysql-8.0.15-1.el7.x86_64.rpm-bundle.tar’ saved [521164800/521164800]
+
+2. Extract the RPM:
+$ tar -xvf mysql-8.0.15-1.el7.x86_64.rpm-bundle.tar
+
+mysql-community-server-8.0.15-1.el7.x86_64.rpm
+mysql-community-client-8.0.15-1.el7.x86_64.rpm
+mysql-community-common-8.0.15-1.el7.x86_64.rpm
+mysql-community-libs-8.0.15-1.el7.x86_64.rpm
+mysql-community-devel-8.0.15-1.el7.x86_64.rpm
+mysql-community-test-8.0.15-1.el7.x86_64.rpm
+mysql-community-libs-compat-8.0.15-1.el7.x86_64.rpm
+mysql-community-embedded-compat-8.0.15-1.el7.x86_64.rpm
+
+3. Install MYSQL:
+$ sudo rpm -Uvh mysql-community-{client,common,libs,embedded-compat,libs,libs-compat,server}-*
+
+warning: mysql-community-client-8.0.15-1.el7.x86_64.rpm: Header V3 DSA/SHA1 Signature, key ID 5072e1f5: NOKEY
+warning: package mysql-community-libs-8.0.15-1.el7.x86_64 was already added, skipping mysql-community-libs-8.0.15-1.el7.x86_64
+warning: package mysql-community-libs-compat-8.0.15-1.el7.x86_64 was already added, skipping mysql-community-libs-compat-8.0.15-1.el7.x86_64
+warning: package mysql-community-libs-compat-8.0.15-1.el7.x86_64 was already added, skipping mysql-community-libs-compat-8.0.15-1.el7.x86_64
+Preparing...                          ################################# [100%]
+Updating / installing...
+   1:mysql-community-common-8.0.15-1.e################################# [ 14%]
+   2:mysql-community-libs-8.0.15-1.el7################################# [ 29%]
+   3:mysql-community-client-8.0.15-1.e################################# [ 43%]
+   4:mysql-community-server-8.0.15-1.e################################# [ 57%]
+   5:mysql-community-libs-compat-8.0.1################################# [ 71%]
+   6:mysql-community-embedded-compat-8################################# [ 86%]
+Cleaning up / removing...
+   7:mariadb-libs-1:5.5.64-1.el7      ################################# [100%]
+   
+4. start mysql service
+
+$ sudo systemctl start mysqld
+
+5. change mysql password
+
+# grep password /var/log/mysqld.log
+2020-02-27T15:59:54.188270Z 5 [Note] [MY-010454] [Server] A temporary password is generated for root@localhost: ;p2uy2/dDMfk
+
+# mysql -u root -p
+mysql> alter user 'root'@'localhost' identified by 'password';
+Query OK, 0 rows affected (0.01 sec)
+mysql>
+mysql> exit
+
+6. Secure mysql
+
+# mysql_secure_installation
+
