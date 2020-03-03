@@ -1,0 +1,24 @@
+//create Database
+
+mysql> CREATE DATABASE db_test;
+
+//create table
+create table customers (cust_id INT PRIMARY KEY AUTO_INCREMENT, username VARCHAR(50), first_name VARCHAR(50), last_name VARCHAR(50), phone_number VARCHAR(25));
+
+//show table columns
+describe customers;
+
+//create a copy of a table
+create table customers_bk select * from customers;
+
+select database();  //to see current database in use
+
+//backup table products in database prod
+mysqldump -u root -p prod products > prod_products.sql
+
+//backup multiple databases
+mysqldump -u root -p --databases dev test  > devandtest.sql
+
+//backup all databases
+mysqldump -u root -p --alldatabases  > full_backup.sql
+
